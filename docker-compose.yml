@@ -1,0 +1,29 @@
+version: "3.2"
+services:
+  php:
+    build: './alpine-php/'
+    #build: './php/'
+    #image: ydbalaji/php:7.4
+    restart: unless-stopped
+    networks:
+      - backend
+    volumes:
+      - ./public_html/:/var/www/html/
+    container_name: ydbalaji-alpine-php
+  apache:
+    image: ydbalaji/apache
+    restart: unless-stopped
+    depends_on:
+      - php
+    networks:
+      - frontend
+      - backend
+    ports:
+      - "80:80"
+    volumes:
+      - ./public_html/:/var/www/html/
+      - ./config/000-default.conf:/etc/apache2/sites-enabled/000-default.conf
+    container_name: ydbalaji-apache
+networks:
+  frontend:
+  backend:
