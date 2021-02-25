@@ -1,25 +1,8 @@
 version: "3.2"
 services:
-  php:
-    #build: './alpine-php/'
-    build: './php/'
-    #image: ydbalaji/php:7.4
-    restart: unless-stopped
-    networks:
-      - backend
-    volumes:
-      - ./public_html/:/var/www/html/
-    container_name: ydbalaji-php
-  # alpine-php:
-  #   build: './alpine-php/'
-  #   restart: unless-stopped
-  #   networks:
-  #     - backend
-  #   volumes:
-  #     - ./public_html/:/var/www/html/
-  #   container_name: ydbalaji-alpine-php
   apache:
-    image: ydbalaji/apache
+    build: './apache/'
+    #image: ydbalaji/apache
     restart: unless-stopped
     depends_on:
       - php
@@ -30,8 +13,46 @@ services:
       - "80:80"
     volumes:
       - ./public_html/:/var/www/html/
-      - ./config/000-default.conf:/etc/apache2/sites-enabled/000-default.conf
+      - ./configuration/apache/000-default.conf:/etc/apache2/sites-enabled/000-default.conf
+      - ./configuration/apache/apache2.conf:/etc/apache2/apache2.conf
     container_name: ydbalaji-apache
+
+  php:
+    #build: './alpine-php/'
+    build: './php/'
+    #image: ydbalaji/php:7.4
+    restart: unless-stopped
+    networks:
+      - backend
+    volumes:
+      - ./public_html/:/var/www/html/
+    links:
+      - mysql
+    env_file: .env
+    container_name: ydbalaji-php
+ 
+  mysql:
+    image: mariadb:latest
+    expose:
+      - "3306"
+    volumes:
+      - ./configuration/mysql/my.cnf:/etc/mysql/my.cnf
+      - mysql:/var/lib/mysql
+    env_file: .env
+    restart: unless-stopped
+    container_name: ydbalaji-mysql
+
+  adminer:
+    image: adminer:latest
+    environment:
+      ADMINER_DEFAULT_SERVER: mysql
+    ports:
+      - 8080:8080
+    container_name: ydbalaji-adminer
+    
+volumes:
+  mysql:
+
 networks:
   frontend:
   backend:

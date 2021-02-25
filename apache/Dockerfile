@@ -12,6 +12,7 @@ RUN apt-get update \
     && apt-get install -y apache2 \
     && apt-get install -y openssl \
     && apt-get install -y vim \
+    && apt-get install -y ssl-cert \
     && apt-get install -y curl 
 
 # Manually set up the apache environment variables
@@ -31,7 +32,10 @@ RUN a2enmod ssl \
     && a2enmod http2 \
     && a2enmod proxy \
     && a2enmod proxy_http \
-    && a2enmod remoteip 
+    && a2enmod remoteip \
+    && a2ensite default-ssl \
+    && c_rehash /etc/ssl/certs/ \
+    && a2ensite default-ssl.conf
 
 EXPOSE 80
 EXPOSE 443

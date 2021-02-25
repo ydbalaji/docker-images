@@ -1,0 +1,10 @@
+[Wed Feb 24 10:44:07.381327 2021] [ssl:warn] [pid 16:tid 139859372723264] AH01909: 172.24.0.3:443:0 server certificate does NOT include an ID which matches the server name
+[Wed Feb 24 10:44:07.381990 2021] [ssl:warn] [pid 16:tid 139859372723264] AH01909: 172.24.0.3:443:0 server certificate does NOT include an ID which matches the server name
+[Wed Feb 24 10:44:07.382510 2021] [ssl:warn] [pid 16:tid 139859372723264] AH01909: localhost:443:0 server certificate does NOT include an ID which matches the server name
+AH00112: Warning: DocumentRoot [/var/www/html/example2] does not exist
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.24.0.3. Set the 'ServerName' directive globally to suppress this message
+[Wed Feb 24 10:44:07.402173 2021] [ssl:warn] [pid 16:tid 139859372723264] AH01909: 172.24.0.3:443:0 server certificate does NOT include an ID which matches the server name
+[Wed Feb 24 10:44:07.402668 2021] [ssl:warn] [pid 16:tid 139859372723264] AH01909: 172.24.0.3:443:0 server certificate does NOT include an ID which matches the server name
+[Wed Feb 24 10:44:07.403219 2021] [ssl:warn] [pid 16:tid 139859372723264] AH01909: localhost:443:0 server certificate does NOT include an ID which matches the server name
+[Wed Feb 24 10:44:07.405682 2021] [mpm_worker:notice] [pid 16:tid 139859372723264] AH00292: Apache/2.4.41 (Ubuntu) OpenSSL/1.1.1f configured -- resuming normal operations
+[Wed Feb 24 10:44:07.405733 2021] [core:notice] [pid 16:tid 139859372723264] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
