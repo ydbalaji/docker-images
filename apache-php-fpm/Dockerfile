@@ -108,9 +108,15 @@ RUN apt-get update ; \
     sqlite3 \
 	libsqlite3-dev
 
+## Installing Composer from dockerimage
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+## Copy the dockerentry point
+COPY ./docker-entrypoint.sh /docker-entrypoint.sh
+
 ## Copy Apache Config files
-COPY 000-default.conf /etc/apache2/sites-available/000-default.conf 
-RUN a2ensite 000-default.conf
+COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
+# RUN a2ensite 000-default.conf
 
 ## Copy Supervisor file in to conatianer
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
@@ -132,8 +138,7 @@ EXPOSE 80
 EXPOSE 443
 
 # ADD app /var/www/html
-VOLUME ["/var/www/html"]
+WORKDIR "/var/www/html"
 
-# By default, simply start apache and PHP by supervisord.
-# CMD service php7.4-fpm start &&  /usr/sbin/apache2ctl -D FOREGROUND
-CMD ["/usr/bin/supervisord"]
+# By default, simply start apache and PHP by supervisord in entrypoint.
+ENTRYPOINT [ "/docker-entrypoint.sh" ]
