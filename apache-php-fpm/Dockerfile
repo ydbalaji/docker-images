@@ -57,12 +57,6 @@ RUN a2enmod ssl \
     && a2enmod vhost_alias \
     && a2enmod remoteip
 
-## Install Mysql server and client
-# RUN apt-get update ; \
-#     apt-get install -y \
-#     mysql-server \
-#     mysql-client
-
 ## Install php7.4
 RUN apt-get update ; \
     apt-get install -y \
@@ -94,7 +88,7 @@ RUN apt-get update ; \
     php7.4-xml \
     php7.4-xsl \
     php7.4-zip  \
-    # libapache2-mod-php7.4 \
+    libapache2-mod-php7.4 \
     php-zmq \
 	php-memcached \
 	php-igbinary \
