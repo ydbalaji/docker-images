@@ -10,7 +10,7 @@ ENV DEBIAN_FRONTEND noninteractive
 # Edit sources.list to add to install libapache2-mod-fastcgi
 RUN echo "deb http://archive.ubuntu.com/ubuntu trusty multiverse \ndeb http://archive.ubuntu.com/ubuntu trusty-updates multiverse \ndeb http://security.ubuntu.com/ubuntu trusty-security multiverse" >> /etc/apt/sources.list
 
-## Add apt repository.
+# Add apt repository.
 RUN apt-get update ; \
     apt-get install -y \
     software-properties-common ; \
@@ -42,71 +42,68 @@ ENV APACHE_PID_FILE /var/run/apache2.pid
 
 ## Enabling apache  variables
 RUN a2enmod ssl \
-    && a2enmod headers \
-    && a2enmod rewrite \
     && a2dismod mpm_prefork \
     && a2dismod mpm_event \
     && a2enmod mpm_worker \
     && a2enmod actions \
-    && a2enmod proxy_fcgi \
     && a2enmod fastcgi \
     && a2enmod http2 \
+    && a2enmod headers \
+    && a2enmod rewrite \
     && a2enmod proxy \
+    && a2enmod proxy_fcgi \
     && a2enmod proxy_http \
     && a2enmod alias \
     && a2enmod vhost_alias \
-    && a2enmod remoteip \
-    && a2ensite default-ssl \
-    && c_rehash /etc/ssl/certs/ \
-    && a2ensite default-ssl.conf
+    && a2enmod remoteip
 
 ## Install Mysql server and client
-RUN apt-get update ; \
-    apt-get install -y \
-    mysql-server \
-    mysql-client
+# RUN apt-get update ; \
+#     apt-get install -y \
+#     mysql-server \
+#     mysql-client
 
 ## Install php7.4
 RUN apt-get update ; \
     apt-get install -y \
     php7.4 \
-    php-fpm \
-    libapache2-mod-php7.4
-
-## Install php7.4 extension
-RUN apt-get update ; \
-    apt-get install -y \
-	php7.4-fpm \
-	php7.4-pgsql \
-	php7.4-mysql \
-	php7.4-sqlite \
-	php7.4-sqlite3 \
-	php7.4-opcache \
-	php7.4-common \
-	php7.4-mbstring \
-	php7.4-soap \
-	php7.4-cli \
-	php7.4-intl \
-	php7.4-json \
-	php7.4-pdo \
-	php7.4-xsl \
-	php7.4-xml \
-	php7.4-imap \
-	php7.4-ldap \
-	php7.4-curl \
-	php7.4-gd  \
-    php7.4-zip  \
-	php7.4-dev \
-	php-igbinary \
-	php7.4-redis \
-	php-memcached \
-	php-mongodb \
-	php7.4-imagick \
-	php7.4-bcmath \
-    php-zmq \
     php7.4-apcu \
-    sqlite3 \
-	libsqlite3-dev
+    php7.4-bcmath \
+    php7.4-calendar \
+    php7.4-cli \
+    php7.4-common \
+    php7.4-curl \
+    php7.4-exif \
+    php7.4-fpm \
+    php7.4-gd  \
+    php7.4-imagick \
+    php7.4-imap \
+    php7.4-intl \
+    php7.4-json \
+    php7.4-ldap \
+    php7.4-mbstring \
+    php7.4-mysql \
+    php7.4-mysqli \
+    php7.4-opcache \
+    php7.4-pdo \
+    php7.4-pgsql \
+    php7.4-redis \
+    php7.4-soap \
+    php7.4-sqlite3 \
+    php7.4-sqlite \
+    php7.4-xml \
+    php7.4-xsl \
+    php7.4-zip  \
+    # libapache2-mod-php7.4 \
+    php-zmq \
+	php-memcached \
+	php-igbinary \
+    ## Install Mysql client
+    mysql-client
+    
+
+## Activate PHP 7.4 Cli
+RUN update-alternatives --set php /usr/bin/php7.4
 
 ## Installing Composer from dockerimage
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
